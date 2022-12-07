@@ -10,6 +10,8 @@ final class PaginatedCollection
     private int $total;
     private int $count;
 
+    private array $links;
+
     public function __construct(\Iterator $items, int $total)
     {
         $this->items = iterator_to_array($items);
@@ -30,5 +32,22 @@ final class PaginatedCollection
     public function getCount(): int
     {
         return $this->count;
+    }
+
+    #[SerializedName('_links')]
+    public function getLinks(): array
+    {
+        return $this->links;
+    }
+    public function setLinks(array $links): void
+    {
+        $this->links = $links;
+    }
+
+    public function addLink(string $rel, string $href): self
+    {
+        $this->links[$rel]['href'] = $href;
+
+        return $this;
     }
 }
